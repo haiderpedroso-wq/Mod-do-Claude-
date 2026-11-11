@@ -1,0 +1,22 @@
+name: Build
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 8
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 4.9
+          cache-disabled: true
+      - run: unzip -q *.zip
+      - run: gradle setupCiWorkspace build
+        working-directory: surpresa-mod
+      - uses: actions/upload-artifact@v4
+        with:
+          name: surpresa-mod
+          path: surpresa-mod/build/libs/*.jar￼Enter
